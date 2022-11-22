@@ -1,0 +1,42 @@
+commands in logging 
+
+1.docker run -it redis 
+to run or print out specific logs of specific container 
+
+
+2. docker ps 
+to show the info of all containers that i have 
+
+3. docker system info
+to print out all docker info like (Docker Root Dir: /var/lib/docker) where docker stores the logs
+
+4. if we use this command (docker logs containerId) like this (docker logs dacb55b9a0a9) will show the same results and logs of (docker run -it redis)
+
+
+5. docker run -it -v  /var/lib/docker:/var/lib/docker alpine sh
+use it to run the ls comand or others related to path /var/log/docker
+
+6. ls /var/lib/docker 
+list folders and files in docker 
+
+7.  ls /var/lib/docker/containers 
+show the containers that we have in docker 
+
+8. ls /var/lib/docker/containers/2d3b8fb40a529ab1eb01d4d93b2011780d10cf9ef064dd59024870c5f130f451 
+i use one of the containers_id that is available in containers folder to list its folders and files
+
+9. one of the listed files in command 8 is this file :
+(2d3b8fb40a529ab1eb01d4d93b2011780d10cf9ef064dd59024870c5f130f451-json.log)
+contains all logs that is related to this container id 
+
+10. cat /var/lib/docker/containers/dacb55b9a0a9e11c9f86bc7220b80dbeb1adc6a5d4cc12c3c12313bdaa98fac3/dacb55b9a0a9e11c9f86bc7220b80dbeb1adc6a5d4cc12c3c12313bdaa98fac3-json.log
+use this cat command and this path 
+/var/lib/docker/containers/containerID/JSON_File.log will print out all logs of this controller
+
+
+***************************************************************************************************************************************************************************************************************************************************
+Docker Driver is JSON but if we want to change the default docker driver to text file or any type of files by these steps:
+
+
+11. C:\Users\mza0200\Documents\GitHub\docker-development-youtube-series\monitoring\logging\fluentd\kubernetes\fluentd-configmap.yaml 
+this path show the configmap to extract the logs from kubernetes 
