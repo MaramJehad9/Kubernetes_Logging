@@ -1,0 +1,34 @@
+MODULE main
+  VAR
+    state: {initiate, collection_created, wait_for_session_reap, index_built, connection_established, connection_count_updated, run_mongodb_actions};
+    create_collection: boolean;
+    session_not_found: boolean;
+    index_build_done: boolean;
+    connection_accepted: boolean;
+    connection_loss_end: boolean;
+    mongo_action: boolean;
+    server_restart: boolean;
+    shut_down: boolean;
+    shut_down_session: boolean;
+
+  ASSIGN
+    init(state) := initiate;
+
+    next(state) :=
+      case
+        state = initiate & create_collection: collection_created;
+        state = collection_created & session_not_found: wait_for_session_reap;
+        state = collection_created & index_build_done: index_built;
+        state = wait_for_session_reap & index_build_done: index_built;
+        state = index_built & connection_accepted: connection_established;
+        state = connection_established & connection_loss_end: connection_count_updated;
+        state = connection_established & mongo_action: run_mongodb_actions;
+        state = connection_count_updated & connection_accepted: connection_established;
+        state = connection_count_updated & server_restart: initiate;
+        state = connection_count_updated & shut_down: finish;
+        state = run_mongodb_actions & shut_down_session: finish;
+        TRUE: next(state) = state;
+      esac;
+
+SPEC
+  AG (state = finish)
