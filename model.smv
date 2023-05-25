@@ -1,6 +1,6 @@
 MODULE main
   VAR
-    state: {initiate, collection_created, wait_for_session_reap, index_built, connection_established, connection_count_updated, run_mongodb_actions, finish};  // Include 'finish' state in the state variable
+    state: {initiate, collection_created, wait_for_session_reap, index_built, connection_established, connection_count_updated, run_mongodb_actions, finish}; 
     connection_accepted: boolean;
     session_not_found: boolean;
     index_build_done: boolean;
@@ -32,4 +32,4 @@ MODULE main
     esac;
 
 SPEC
-  AG (state = finish)
+  AG (state = finish) 
